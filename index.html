@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EC BEAUTY 易思美容 | 澳門泰式SPA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --text: #443025;
+      --border: #7F5836;
+      --bg-main: #FFD7D5;
+      --footer: #AA7F66;
+      --accent: #EC9C9D;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans TC', sans-serif; background: var(--bg-main); color: var(--text); letter-spacing: 0.03em; overflow-x: hidden; }
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 14px 40px; background: var(--text); border-bottom: 3px solid var(--accent); }
+    .nav-brand { display: flex; align-items: center; gap: 10px; }
+    .nav-brand-logo { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+    .nav-brand-name { font-family: 'Playfair Display', serif; color: var(--bg-main); font-size: 1.15rem; font-weight: 700; }
+    .nav-brand-sub { color: var(--accent); font-size: 0.6rem; letter-spacing: 0.15em; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { color: var(--bg-main); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.05em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-book-btn { padding: 8px 18px; background: var(--accent); border: none; color: var(--text); font-size: 0.78rem; letter-spacing: 0.08em; cursor: pointer; font-family: inherit; border-radius: 3px; transition: all 0.2s; }
+    .nav-book-btn:hover { background: var(--border); color: #fff; }
+    .hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; overflow: hidden; background: var(--footer); }
+    .hero-bg { position: absolute; inset: 0; background-image: url('hero-villa.jpg'); background-size: cover; background-position: center; filter: brightness(0.45); }
+    .hero-content { position: relative; z-index: 2; padding: 0 20px; }
+    .hero-eyebrow { color: var(--accent); font-size: 0.75rem; letter-spacing: 0.3em; font-family: 'Playfair Display', serif; margin-bottom: 12px; }
+    .hero-title { font-family: 'Noto Serif TC', serif; color: var(--bg-main); font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; line-height: 1.2; margin-bottom: 16px; text-shadow: 0 2px 20px rgba(0,0,0,0.4); }
+    .hero-title span { color: var(--accent); }
+    .hero-divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 12px 0; }
+    .hero-divider-line { width: 60px; height: 1.5px; background: linear-gradient(90deg, transparent, var(--accent)); }
+    .hero-divider-line:last-child { background: linear-gradient(90deg, var(--accent), transparent); }
+    .hero-desc { color: rgba(249,248,244,0.9); font-size: 1rem; line-height: 1.8; max-width: 500px; margin: 16px auto 32px; }
+    .hero-btn-primary { padding: 14px 36px; background: var(--accent); color: var(--text); border: none; border-radius: 3px; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.1em; cursor: pointer; font-family: inherit; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: transform 0.2s; text-decoration: none; display: inline-block; }
+    .hero-btn-primary:hover { transform: translateY(-2px); }
+    .menu-tabs { background: var(--text); padding: 60px 20px 40px; text-align: center; }
+    .menu-tabs h2 { font-family: 'Noto Serif TC', serif; color: var(--bg-main); font-size: 1.8rem; margin-bottom: 8px; }
+    .menu-tabs p { color: var(--accent); font-size: 0.85rem; margin-bottom: 30px; }
+    .tabs-row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .tab-btn { padding: 10px 24px; background: transparent; border: 2px solid var(--border); color: var(--bg-main); font-size: 0.85rem; letter-spacing: 0.08em; cursor: pointer; font-family: inherit; border-radius: 30px; transition: all 0.25s; }
+    .tab-btn.active, .tab-btn:hover { background: var(--border); color: var(--bg-main); }
+    .products { padding: 70px 20px; background: var(--bg-main); }
+    .section-header { text-align: center; margin-bottom: 50px; }
+    .section-header .eyebrow { color: var(--border); font-size: 0.72rem; letter-spacing: 0.3em; margin-bottom: 8px; font-family: 'Playfair Display', serif; }
+    .section-header h2 { font-family: 'Noto Serif TC', serif; color: var(--text); font-size: 1.8rem; font-weight: 700; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1100px; margin: 0 auto; }
+    .product-card { background: #fff; border-radius: 8px; overflow: visible; box-shadow: 0 6px 24px rgba(68,48,37,0.1); transition: transform 0.3s; border: 2px solid var(--border); display: flex; flex-direction: column; }
+    .product-card:hover { transform: translateY(-6px); border-color: var(--accent); }
+    .product-img { width: 100%; height: auto; object-fit: contain; flex-shrink: 0; }
+    .product-body { padding: 24px; }
+    .product-body h3 { font-family: 'Noto Serif TC', serif; color: var(--text); font-size: 1.1rem; margin-bottom: 8px; }
+    .product-body .desc { font-size: 0.85rem; color: var(--border); line-height: 1.6; margin-bottom: 16px; }
+    .product-body .price { font-size: 1.2rem; font-weight: 700; color: var(--border); margin-bottom: 16px; }
+    .product-btn { display: inline-block; padding: 10px 24px; background: var(--accent); color: var(--text); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.08em; border-radius: 3px; transition: background 0.2s; }
+    .product-btn:hover { background: var(--border); color: var(--bg-main); }
+    .about { padding: 70px 20px; background: var(--footer); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; max-width: 1100px; margin: 0 auto; align-items: center; }
+    .about-text h2 { font-family: 'Noto Serif TC', serif; color: var(--bg-main); font-size: 1.6rem; margin-bottom: 16px; }
+    .about-text p { color: rgba(249,248,244,0.85); font-size: 0.95rem; line-height: 1.8; margin-bottom: 20px; }
+    .about-since { display: flex; align-items: center; gap: 12px; }
+    .about-since-line { flex: 1; height: 1px; background: var(--accent); }
+    .about-since-text { color: var(--accent); font-size: 0.72rem; letter-spacing: 0.2em; font-family: 'Playfair Display', serif; }
+    .about-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .about-gallery img { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; border: 2px solid var(--accent); }
+    .about-gallery img:first-child { grid-column: span 2; height: 180px; }
+    .features { padding: 70px 20px; background: var(--bg-main); }
+    .features-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; }
+    .feature-item { text-align: center; padding: 30px 20px; background: #fff; border-radius: 8px; border: 2px solid var(--border); }
+    .feature-item .icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .feature-item .title { font-family: 'Noto Serif TC', serif; color: var(--text); font-size: 1rem; margin-bottom: 6px; }
+    .feature-item .desc { color: var(--border); font-size: 0.8rem; }
+    .footer { background: var(--footer); padding: 60px 20px 40px; }
+    .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1100px; margin: 0 auto; }
+    .footer-brand .brand-name { font-family: 'Playfair Display', serif; color: var(--bg-main); font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
+    .footer-brand .brand-sub { color: var(--accent); font-size: 0.75rem; letter-spacing: 0.1em; margin-bottom: 12px; }
+    .footer-brand p { color: rgba(249,248,244,0.7); font-size: 0.85rem; line-height: 1.6; }
+    .footer h4 { color: var(--bg-main); font-size: 0.9rem; margin-bottom: 16px; letter-spacing: 0.05em; }
+    .footer-item { color: var(--accent); font-size: 0.82rem; margin-bottom: 10px; }
+    .footer-contact .contact-row { color: rgba(249,248,244,0.7); font-size: 0.82rem; margin-bottom: 8px; }
+    .footer-btn { display: inline-block; padding: 10px 20px; background: var(--accent); color: var(--text); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.08em; border-radius: 3px; margin-top: 12px; transition: background 0.2s; }
+    .footer-btn:hover { background: var(--border); color: var(--bg-main); }
+    .footer-divider { text-align: center; margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+    .footer-copy { color: rgba(249,248,244,0.5); font-size: 0.75rem; margin-top: 12px; }
+    .section-divider { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 20px 0; }
+    .section-divider-line { flex: 1; max-width: 80px; height: 1px; background: var(--accent); }
+    @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; } .features-row { grid-template-columns: repeat(2, 1fr); } .footer-grid { grid-template-columns: 1fr; gap: 24px; } }
+    @media (max-width: 640px) { .navbar { padding: 12px 16px; } .nav-links { display: none; } .products-grid { grid-template-columns: 1fr; } .features-row { grid-template-columns: 1fr; } .about-gallery { grid-template-columns: 1fr; } .about-gallery img:first-child { grid-column: span 1; } }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-brand">
+    <img src="logo.png" alt="EC BEAUTY" class="nav-brand-logo">
+    <div>
+      <div class="nav-brand-name">EC BEAUTY</div>
+      <div class="nav-brand-sub">易思美容</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="#home">主頁</a>
+    <a href="#services">療程</a>
+    <a href="#about">關於我們</a>
+    <a href="#contact">聯絡我們</a>
+  </div>
+  <button class="nav-book-btn" onclick="location.href='booking.html'">立即預約</button>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">THAI EC SPA · 澳門</div>
+    <h1 class="hero-title">遇見 <span>身心靈</span> 的平衡</h1>
+    <div class="hero-divider">
+      <div class="hero-divider-line"></div>
+      <span style="color: var(--accent);">✦</span>
+      <div class="hero-divider-line"></div>
+    </div>
+    <p class="hero-desc">源自泰國傳統古法，融合現代專業技術<br>為您打造極致舒壓的 SPA 體驗</p>
+    <a href="booking.html" class="hero-btn-primary">立即預約療程</a>
+  </div>
+</section>
+
+<section class="menu-tabs" id="services">
+  <h2>精選療程</h2>
+  <p>為您嚴選最好的服務項目</p>
+  <div class="tabs-row">
+    <button class="tab-btn">身體擺工SPA</button>
+    <button class="tab-btn">女神修面術</button>
+    <button class="tab-btn">女神纖體秘術</button>
+    <button class="tab-btn">VIP寵粉基地</button>
+    <button class="tab-btn">閉眼入護膚</button>
+  </div>
+</section>
+
+<section class="products">
+  <div class="section-header">
+    <div class="eyebrow">OUR SERVICES</div>
+    <h2>嚴選療程 · 效果保證</h2>
+  </div>
+  <div class="products-grid">
+    <div class="product-card">
+      <img src="product1.jpg" alt="好「柚」運氣SPA療程" class="product-img">
+      <div class="product-body">
+        <h3>好「柚」運氣SPA療程</h3>
+        <p class="desc">泰國進口柚籽精油，配合傳統泰式按摩手法，驅除疲勞，回復活力</p>
+        <div class="price">$498</div>
+        <a href="booking.html?product=好「柚」運氣SPA療程&price=$498&img=product1.jpg" class="product-btn">立即預約</a>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="product2.jpg" alt="清潔女皇" class="product-img">
+      <div class="product-body">
+        <h3>清潔女皇</h3>
+        <p class="desc">深層清潔毛孔污垢，配合保濕導入，讓肌膚煥然一新</p>
+        <div class="price">$298</div>
+        <a href="booking.html?product=清潔女皇&price=$298&img=product2.jpg" class="product-btn">立即預約</a>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="product3.jpg" alt="瘦身纖體" class="product-img">
+      <div class="product-body">
+        <h3>瘦身纖體</h3>
+        <p class="desc">韓國最新纖體技術，配合專業手法，塑造完美曲線</p>
+        <div class="price">$2,388 / 40次</div>
+        <a href="booking.html?product=瘦身纖體&price=$2,388&img=product3.jpg" class="product-btn">立即預約</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="eyebrow" style="color:var(--accent);">ABOUT US</div>
+      <h2>為何選擇 EC BEAUTY</h2>
+      <p>EC BEAUTY 易思美容成立於 2003 年，至今已在澳門市場深耕多年致力於為每位客人提供最優質的泰式 SPA 體驗，作為本澳已有4間分店、頗具知名度的美容品牌，我們一直位列行業前列。</p>
+      <p>我們精選天然柚籽葉、茉莉精油等珍貴植物成分，結合專業手法，讓您在每一次療程中感受到來自大自然的滋養與修復力量。</p>
+      <div class="about-since">
+        <div class="about-since-line"></div>
+        <span class="about-since-text">SINCE 2003</span>
+      </div>
+    </div>
+    <div class="about-gallery">
+      <img src="gallery-spa.jpg" alt="SPA 環境">
+      <img src="gallery-spa2.jpg" alt="療程過程">
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="section-header">
+    <div class="eyebrow">WHY CHOOSE US</div>
+    <h2>EC BEAUTY 優勢</h2>
+  </div>
+  <div class="features-row">
+    <div class="feature-item">
+      <div class="icon">🌿</div>
+      <div class="title">天然植萃</div>
+      <div class="desc">精選泰國珍貴植物精華</div>
+    </div>
+    <div class="feature-item">
+      <div class="icon">👐</div>
+      <div class="title">專業手法</div>
+      <div class="desc">受訓泰式傳統療癒技術</div>
+    </div>
+    <div class="feature-item">
+      <div class="icon">✨</div>
+      <div class="title">奢華體驗</div>
+      <div class="desc">五感沉浸式療癒環境</div>
+    </div>
+    <div class="feature-item">
+      <div class="icon">💛</div>
+      <div class="title">效果保證</div>
+      <div class="desc">客製化療程方案設計</div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" id="contact">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name">EC BEAUTY</div>
+      <div class="brand-sub">易思美容</div>
+      <p>融合泰國傳統療癒智慧，為您帶來奢華的身心靈體驗。</p>
+    </div>
+    <div>
+      <h4>精選療程</h4>
+      <div class="footer-item">好「柚」運氣SPA療程 — $498</div>
+      <div class="footer-item">清潔女皇 — $298</div>
+      <div class="footer-item">瘦身纖體 — $2,388 / 40次</div>
+    </div>
+    <div class="footer-contact">
+      <h4>聯絡我們</h4>
+      <div class="contact-row">WeChat: ECBEAUTY</div>
+      <div class="contact-row">gunjelly@yahoo.com.hk</div>
+      <a href="booking.html" class="footer-btn">立即預約療程</a>
+    </div>
+  </div>
+  <div class="footer-divider">
+    <div class="section-divider">
+      <div class="section-divider-line"></div>
+      <span style="color: var(--accent);">✦</span>
+      <div class="section-divider-line"></div>
+    </div>
+    <p class="footer-copy">© 2024 EC BEAUTY 易思美容. All Rights Reserved. | 澳門 Macau</p>
+  </div>
+</footer>
+</body>
+</html>
