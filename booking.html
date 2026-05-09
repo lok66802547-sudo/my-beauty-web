@@ -58,8 +58,10 @@
   <div style="width:60px"></div>
 </div>
 
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
 <!-- Hidden form for Formspree -->
-<form id="hidden-form" method="POST" action="https://formspree.io/f/mdayzyej" style="display:none;">
+<form id="hidden-form" method="POST" action="https://formspree.io/f/mdayzyej" style="display:none;" target="hidden_iframe" onsubmit="setTimeout(function(){window.location.replace('payment.html');}, 500);">
   <input type="text" name="姓名" id="fs-name">
   <input type="text" name="電話" id="fs-phone">
   <input type="text" name="療程" id="fs-product">
@@ -189,7 +191,6 @@
     document.getElementById('fs-note').value = document.getElementById('field-note').value;
 
     document.getElementById('hidden-form').submit();
-    window.location.replace('payment.html');
   });
 })();
 function openLightbox() { var img = document.getElementById('product-image').src; document.getElementById('lightbox-img').src = img; document.getElementById('lightbox').classList.add('show'); }
