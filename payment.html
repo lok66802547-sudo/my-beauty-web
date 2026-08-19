@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
@@ -76,7 +76,10 @@
     @keyframes confetti-fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
     @media (max-width: 900px) { .payment-card-inner { grid-template-columns: 1fr; } .qr-panel { border-right: none; border-bottom: 1px solid rgba(127,88,54,0.2); } }
   </style>
-</head>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script></head>
 <body>
 <div class="payment-nav-bar">
   <div style="width:60px"></div>
