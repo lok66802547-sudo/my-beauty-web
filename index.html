@@ -338,7 +338,7 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'Noto Sans TC', sans-serif; background: var(--bg-main); color: var(--text); letter-spacing: 0.03em; overflow-x: hidden; }
     .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 14px 40px; background: var(--text); border-bottom: 3px solid var(--accent); }
-    .nav-brand { display: flex; align-items: center; gap: 10px; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .nav-brand-logo { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
     .nav-brand-name { font-family: 'Playfair Display', serif; color: var(--bg-main); font-size: 1.15rem; font-weight: 700; }
     .nav-brand-sub { color: var(--accent); font-size: 0.6rem; letter-spacing: 0.15em; }
@@ -425,7 +425,7 @@
 </head>
 <body>
 <nav class="navbar">
-  <div class="nav-brand">
+  <a class="nav-brand" href="/index.html" aria-label="返回 EC Beauty 主頁">
     <img src="logo.png" alt="EC BEAUTY" class="nav-brand-logo">
     <div>
       <div class="nav-brand-name">EC BEAUTY</div>
@@ -472,7 +472,7 @@
   <div class="section-header">
     <div class="eyebrow">OUR SERVICES</div>
     <h2>精選療程與優惠</h2>
-  </div>
+  </a>
   <div class="products-grid">
     <div class="product-card">
       <a href="white-party.html" class="product-img-wrapper" aria-label="查看 The White Party 膠原蛋白賦活艙活動詳情">

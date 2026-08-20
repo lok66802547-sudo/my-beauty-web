@@ -17,7 +17,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Noto Sans TC', sans-serif; background: var(--bg-main); color: var(--text); letter-spacing: 0.03em; min-height: 100vh; display: flex; flex-direction: column; }
     .payment-nav-bar { background: var(--text); border-bottom: 3px solid var(--accent); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; right: 0; z-index: 200; }
-    .payment-nav-brand { font-family: 'Playfair Display', serif; color: var(--bg-main); font-size: 1.05rem; font-weight: 700; }
+    .payment-nav-brand { font-family: 'Playfair Display', serif; color: var(--bg-main); font-size: 1.05rem; font-weight: 700; text-decoration: none; }
 
     .payment-hero { background: var(--footer); padding: 80px 20px 60px; text-align: center; position: relative; overflow: hidden; }
     .confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
@@ -85,7 +85,7 @@
 <body>
 <div class="payment-nav-bar">
   <div style="width:60px"></div>
-  <div class="payment-nav-brand">EC BEAUTY 易思美容</div>
+  <a class="payment-nav-brand" href="/index.html" aria-label="返回 EC Beauty 主頁">EC BEAUTY 易思美容</a>
   <a href="index.html" style="color:var(--bg-main);font-size:0.82rem;text-decoration:none;">離開</a>
 </div>
 
