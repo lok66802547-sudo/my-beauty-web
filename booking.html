@@ -51,6 +51,8 @@
     .branch-card a:hover { color: var(--bg-main); }
     .branch-address-link { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
     .branch-address-link svg { width: 18px; height: 18px; fill: var(--accent); flex: 0 0 auto; margin-top: 3px; }
+    .online-service-btn { position: fixed; right: 20px; bottom: 20px; z-index: 1000; display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border: 2px solid var(--border); border-radius: 999px; background: var(--accent); color: var(--text); font-weight: 700; text-decoration: none; box-shadow: 0 8px 24px rgba(68,48,37,.25); transition: transform .2s, background .2s, color .2s; }
+    .online-service-btn:hover { transform: translateY(-3px); background: var(--border); color: #fff; }
     @media (max-width: 640px) { body { padding-top: 84px; } .booking-box { padding: 36px 20px; } .booking-nav-brand { font-size: 0.95rem; } }
   </style>
   <script>
@@ -264,18 +266,7 @@ function closeLightbox() { document.getElementById('lightbox').classList.remove(
   <img src="" id="lightbox-img" alt="放大圖片">
 </div>
 
-<!-- Tawk.to Live Chat -->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/69fdec7e013fc11c3cb949f1/1jo3u7jo4';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
+<a class="online-service-btn" href="https://work.weixin.qq.com/ca/cawcde5f973c5d89fb" target="_blank" rel="noopener noreferrer" aria-label="使用企業微信聯絡 EC Beauty 線上客服">💬 線上客服</a>
 
 </body>
 </html>
