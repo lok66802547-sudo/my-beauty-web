@@ -477,10 +477,16 @@
   <h2>服務項目</h2>
   <p>精選美容護理與 VIP 專屬療程優惠</p>
   <div class="tabs-row">
-    <a href="volnewmer.html" class="tab-btn">VIP寵粉基地</a>
+    <div class="tab-dropdown" id="fan-base-dropdown">
+      <button class="tab-btn tab-dropdown-toggle" type="button" aria-expanded="false" aria-controls="fan-base-menu">VIP寵粉基地</button>
+      <div class="face-care-menu" id="fan-base-menu" role="menu" aria-label="VIP 寵粉基地療程與活動">
+        <a href="moonlight-garden.html" role="menuitem">中秋會員獨享</a>
+        <a href="volnewmer.html" role="menuitem">黃金三維膠原緊緻療程</a>
+      </div>
+    </div>
     <button class="tab-btn">身體護理 SPA</button>
     <div class="tab-dropdown" id="face-care-dropdown">
-      <button class="tab-btn face-care-toggle" type="button" aria-expanded="false" aria-controls="face-care-menu">面部護理</button>
+      <button class="tab-btn face-care-toggle tab-dropdown-toggle" type="button" aria-expanded="false" aria-controls="face-care-menu">面部護理</button>
       <div class="face-care-menu" id="face-care-menu" role="menu" aria-label="面部護理 DNA 療程">
         <a href="whitening-dna.html" role="menuitem">易思美白 DNA</a>
         <span class="coming-soon" role="menuitem" aria-disabled="true">易思緊緻 DNA <small>即將推出</small></span>
@@ -500,14 +506,14 @@
   </div>
   <div class="products-grid">
     <div class="product-card">
-      <a href="https://work.weixin.qq.com/ca/cawcde5f973c5d89fb" target="_blank" rel="noopener noreferrer" class="product-img-wrapper" aria-label="查詢 EC Beauty 中秋會員專享活動">
+      <a href="moonlight-garden.html" class="product-img-wrapper" aria-label="查看 EC Beauty 中秋會員獨享活動詳情">
         <img src="mid-autumn-member-offer.jpg" alt="EC Beauty 中秋會員專享，集滿所有好運送畀你" class="product-img">
       </a>
       <div class="product-body">
         <h3>中秋會員專享</h3>
         <p class="desc">今個中秋，EC Beauty 集滿所有好運送畀你。會員限定活動詳情及獎賞，歡迎聯絡線上客服查詢。</p>
         <div class="price">會員限定活動</div>
-        <a href="https://work.weixin.qq.com/ca/cawcde5f973c5d89fb" target="_blank" rel="noopener noreferrer" class="product-btn">立即查詢</a>
+        <a href="moonlight-garden.html" class="product-btn">查看詳情</a>
       </div>
     </div>
     <div class="product-card">
@@ -646,24 +652,37 @@
 
 <script>
   (function () {
-    var dropdown = document.getElementById('face-care-dropdown');
-    var toggle = dropdown && dropdown.querySelector('.face-care-toggle');
-    if (!dropdown || !toggle) return;
-    toggle.addEventListener('click', function () {
-      var open = dropdown.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', String(open));
+    var dropdowns = Array.prototype.slice.call(document.querySelectorAll('.tab-dropdown'));
+    dropdowns.forEach(function (dropdown) {
+      var toggle = dropdown.querySelector('.tab-dropdown-toggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', function () {
+        var willOpen = !dropdown.classList.contains('is-open');
+        dropdowns.forEach(function (item) {
+          item.classList.remove('is-open');
+          var itemToggle = item.querySelector('.tab-dropdown-toggle');
+          if (itemToggle) itemToggle.setAttribute('aria-expanded', 'false');
+        });
+        dropdown.classList.toggle('is-open', willOpen);
+        toggle.setAttribute('aria-expanded', String(willOpen));
+      });
     });
     document.addEventListener('click', function (event) {
-      if (!dropdown.contains(event.target)) {
-        dropdown.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
-      }
+      dropdowns.forEach(function (dropdown) {
+        if (!dropdown.contains(event.target)) {
+          dropdown.classList.remove('is-open');
+          var toggle = dropdown.querySelector('.tab-dropdown-toggle');
+          if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
     });
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape') {
-        dropdown.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.focus();
+        dropdowns.forEach(function (dropdown) {
+          dropdown.classList.remove('is-open');
+          var toggle = dropdown.querySelector('.tab-dropdown-toggle');
+          if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        });
       }
     });
   })();

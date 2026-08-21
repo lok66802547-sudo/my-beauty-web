@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/trpc/:path*",
+      "destination": "https://moonlgdn-kjprfbwi.manus.space/api/trpc/:path*"
+    }
+  ]
+}
