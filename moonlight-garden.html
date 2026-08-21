@@ -33,7 +33,18 @@
     <link rel="stylesheet" href="/moonlight-garden-dist/app.css">
     <link rel="icon" href="/logo.png" type="image/png">
     <script type="module" src="/moonlight-garden-dist/app.js"></script>
-    <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      (function () {
+        var referralCode = new URLSearchParams(window.location.search).get('ref');
+        if (referralCode) {
+          window.va('event', {
+            name: 'member_referral_visit',
+            data: { referralCode: referralCode }
+          });
+        }
+      }());
+    </script>
     <script defer src="/_vercel/insights/script.js"></script>
   </head>
   <body>
