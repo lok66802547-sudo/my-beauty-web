@@ -1,5 +1,24 @@
 {
+  "headers": [
+    {
+      "source": "/tightening-dna-preview-ecb2026/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive, nosnippet"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-cache, no-store, must-revalidate"
+        }
+      ]
+    }
+  ],
   "rewrites": [
+    {
+      "source": "/tightening-dna-preview-ecb2026/ai-skin-journey",
+      "destination": "/tightening-dna-preview-ecb2026/index.html"
+    },
     {
       "source": "/api/trpc/:path*",
       "destination": "https://moonlgdn-kjprfbwi.manus.space/api/trpc/:path*"
