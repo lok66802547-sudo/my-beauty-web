@@ -1,6 +1,19 @@
 {
   "headers": [
     {
+      "source": "/tightening-dna-preview-ecb2026/",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive, nosnippet"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
       "source": "/tightening-dna-preview-ecb2026/:path*",
       "headers": [
         {
