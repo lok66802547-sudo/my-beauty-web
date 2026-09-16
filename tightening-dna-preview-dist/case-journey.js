@@ -6,7 +6,7 @@
       label: "療程前 · 45°",
       title: "療程前｜45°輪廓檢測",
       description: "觀察面頰、下顎線及下半面輪廓狀態。",
-      image: "/tightening-dna-preview-assets/case-journey-01-before-45.jpg",
+      image: "/tightening-dna-preview-assets/case-journey-01-before-45.jpg?v=ce3e511",
       alt: "療程前45度輪廓檢測相片"
     },
     {
@@ -15,7 +15,7 @@
       label: "療程前 · 正面",
       title: "療程前｜正面檢測",
       description: "從正面記錄面部比例、浮腫及左右輪廓。",
-      image: "/tightening-dna-preview-assets/case-journey-02-before-front.jpg",
+      image: "/tightening-dna-preview-assets/case-journey-02-before-front.jpg?v=ce3e511",
       alt: "療程前正面輪廓檢測相片"
     },
     {
@@ -24,7 +24,7 @@
       label: "療程前 · 側面",
       title: "療程前｜側面檢測",
       description: "觀察下顎線、下巴與頸部的輪廓連接。",
-      image: "/tightening-dna-preview-assets/case-journey-03-before-profile.jpg",
+      image: "/tightening-dna-preview-assets/case-journey-03-before-profile.jpg?v=ce3e511",
       alt: "療程前側面輪廓檢測相片"
     },
     {
@@ -33,7 +33,7 @@
       label: "療程中段",
       title: "療程中段｜緊緻開始發生",
       description: "療程進行期間，輪廓開始收緊，下顎線逐漸清晰。",
-      image: "/tightening-dna-preview-assets/case-journey-04-progress.jpg",
+      image: "/tightening-dna-preview-assets/case-journey-04-progress.jpg?v=ce3e511",
       alt: "療程中段輪廓進度相片"
     },
     {
@@ -42,7 +42,7 @@
       label: "療程完成",
       title: "療程完成｜Final Result",
       description: "完成療程後，呈現更清晰、緊實的下半面輪廓。",
-      image: "/tightening-dna-preview-assets/case-journey-05-final-after.jpg",
+      image: "/tightening-dna-preview-assets/case-journey-05-final-after.jpg?v=ce3e511",
       alt: "療程完成後最終輪廓相片"
     }
   ];
@@ -105,7 +105,7 @@
 
   function thumb(step, index) {
     return `<button type="button" class="tdna-case__thumb${index === 0 ? " is-active" : ""}" data-case-step="${index}" aria-pressed="${index === 0}" aria-label="顯示${step.title}">
-      <span class="tdna-case__thumb-image"><img src="${step.image}" alt="" loading="lazy"></span>
+      <span class="tdna-case__thumb-image"><img src="${step.image}" alt="" loading="eager"></span>
       <span class="tdna-case__thumb-copy"><b>${step.number}</b><small>${step.label}</small></span>
     </button>`;
   }
