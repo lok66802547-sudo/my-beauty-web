@@ -10,9 +10,23 @@ export function assertTestRuntime() {
   if (vercelEnv && vercelEnv !== "preview" && vercelEnv !== "development") {
     throw new Error("PRODUCTION_ACCESS_FORBIDDEN");
   }
-  const url = process.env.TEST_DATABASE_URL;
-  if (!url) throw new Error("TEST_DATABASE_URL_MISSING");
-  const parsed = new URL(url);
+  const rawUrl = process.env.TEST_DATABASE_URL;
+  if (!rawUrl) throw new Error("TEST_DATABASE_URL_MISSING");
+  const url = rawUrl
+    .trim()
+    .replace(/^TEST_DATABASE_URL\s*=\s*/i, "")
+    .replace(/^["']|["']$/g, "")
+    .replace(/&amp;/g, "&")
+    .replace(/\\([_@])/g, "$1");
+  let parsed;
+  try {
+    parsed = new URL(url);
+  } catch {
+    throw new Error("TEST_DATABASE_URL_FORMAT_INVALID");
+  }
+  if (parsed.protocol !== "postgresql:" && parsed.protocol !== "postgres:") {
+    throw new Error("TEST_DATABASE_URL_FORMAT_INVALID");
+  }
   if (!parsed.hostname.endsWith(".neon.tech")) throw new Error("TEST_DATABASE_HOST_REJECTED");
   return url;
 }
