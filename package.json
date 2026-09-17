@@ -1,0 +1,13 @@
+{
+  "name": "ec-beauty-static-preview",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "pg": "^8.16.3",
+    "qrcode": "^1.5.4"
+  }
+}

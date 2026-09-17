@@ -33,6 +33,10 @@
       "destination": "/tightening-dna-preview-ecb2026/index.html"
     },
     {
+      "source": "/campaign/:campaignId/verify/:token",
+      "destination": "/tightening-dna-preview-ecb2026/verify.html?campaignId=:campaignId&token=:token"
+    },
+    {
       "source": "/api/trpc/:path*",
       "destination": "https://moonlgdn-kjprfbwi.manus.space/api/trpc/:path*"
     }
