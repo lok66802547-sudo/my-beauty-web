@@ -10,23 +10,29 @@ export function assertTestRuntime() {
   if (vercelEnv && vercelEnv !== "preview" && vercelEnv !== "development") {
     throw new Error("PRODUCTION_ACCESS_FORBIDDEN");
   }
-  const rawUrl = process.env.TEST_DATABASE_URL;
-  if (!rawUrl) throw new Error("TEST_DATABASE_URL_MISSING");
-  const url = rawUrl
-    .trim()
-    .replace(/^TEST_DATABASE_URL\s*=\s*/i, "")
-    .replace(/^["']|["']$/g, "")
-    .replace(/&amp;/g, "&")
-    .replace(/\\([_@])/g, "$1");
+  const candidates = [process.env.TEST_DATABASE_URL, process.env.POSTGRES_URL].filter(Boolean);
+  if (!candidates.length) throw new Error("TEST_DATABASE_URL_MISSING");
+  let url;
   let parsed;
-  try {
-    parsed = new URL(url);
-  } catch {
-    throw new Error("TEST_DATABASE_URL_FORMAT_INVALID");
+  for (const rawUrl of candidates) {
+    const normalized = rawUrl
+      .trim()
+      .replace(/^TEST_DATABASE_URL\s*=\s*/i, "")
+      .replace(/^["']|["']$/g, "")
+      .replace(/&amp;/g, "&")
+      .replace(/\\([_@])/g, "$1");
+    try {
+      const candidate = new URL(normalized);
+      if ((candidate.protocol === "postgresql:" || candidate.protocol === "postgres:") && candidate.hostname.endsWith(".neon.tech")) {
+        url = normalized;
+        parsed = candidate;
+        break;
+      }
+    } catch {
+      // Try the Vercel-managed Preview-only Neon URL next.
+    }
   }
-  if (parsed.protocol !== "postgresql:" && parsed.protocol !== "postgres:") {
-    throw new Error("TEST_DATABASE_URL_FORMAT_INVALID");
-  }
+  if (!url || !parsed) throw new Error("TEST_DATABASE_URL_FORMAT_INVALID");
   if (!parsed.hostname.endsWith(".neon.tech")) throw new Error("TEST_DATABASE_HOST_REJECTED");
   return url;
 }
