@@ -81,6 +81,11 @@ export default async function handler(req, res) {
     });
     return json(res, duplicate ? 200 : 201, payload);
   } catch (error) {
+    console.error("campaign-test claim failed", {
+      code: error?.code || "UNKNOWN",
+      message: error instanceof Error ? error.message : "UNKNOWN_ERROR",
+      constraint: error?.constraint || undefined,
+    });
     const code = error instanceof Error ? error.message : "BACKEND_ERROR";
     const safe = ["TEST_ENV_NOT_CONFIGURED","PRODUCTION_ACCESS_FORBIDDEN","TEST_DATABASE_URL_MISSING",
       "TEST_DATABASE_HOST_REJECTED","TEST_CAMPAIGN_NOT_FOUND","CAMPAIGN_NOT_ACTIVE","CLAIM_WINDOW_CLOSED"].includes(code)

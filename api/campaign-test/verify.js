@@ -23,6 +23,10 @@ export default async function handler(req, res) {
       voucher: { displayCode: row.display_code, expiresAt: row.expires_at },
     });
   } catch (error) {
+    console.error("campaign-test verify failed", {
+      code: error?.code || "UNKNOWN",
+      message: error instanceof Error ? error.message : "UNKNOWN_ERROR",
+    });
     const code = error instanceof Error ? error.message : "BACKEND_ERROR";
     return json(res, 503, { error: code.startsWith("TEST_") || code === "PRODUCTION_ACCESS_FORBIDDEN" ? code : "BACKEND_ERROR" });
   }
