@@ -1,7 +1,7 @@
 (() => {
   const treatments = [
     { number: "01", name: "易思面部提拉護理" },
-    { number: "02", name: "易思緊膚咒" }
+    { number: "02", name: "EC緊膚咒" }
   ];
   let activeTreatment = null;
   let previousFocus = null;
@@ -9,6 +9,7 @@
   const placeholder = (label) => `<div class="tdna-placeholder"><span>${label}</span><small>CONTENT TO BE PROVIDED</small></div>`;
 
   const LIFTING_ASSET = "/tightening-dna-preview-assets/lifting-treatment";
+  const TIGHTENING_ASSET = "/tightening-dna-preview-assets/tightening-curse-treatment";
 
   function liftingDetailMarkup(treatment) {
     const benefits = [
@@ -63,8 +64,65 @@
       </section>`;
   }
 
+  function tighteningDetailMarkup(treatment) {
+    const benefits = [
+      ["緊", "改善肌膚鬆弛感，建立更穩定的承托。"],
+      ["提", "針對眉眼、面頰與下半面，強化向上輪廓視覺。"],
+      ["拉", "分層照顧面部及頸部線條，令輪廓更俐落。"],
+      ["細", "照顧細紋、毛孔與肌膚紋理，呈現細緻膚感。"],
+      ["嫩", "支持膠原更新，提升柔韌、飽滿與彈性觀感。"],
+      ["白", "透過膚質與紋理改善，呈現更明亮通透的視覺狀態。"]
+    ];
+    const depths = [
+      ["1.5", "表層膚質", "細紋、毛孔及表層緊實感"],
+      ["2.0", "精細位置", "額頭、眼周及嘴周等窄小輪廓"],
+      ["3.0", "真皮層", "膠原支撐、彈性與紋理"],
+      ["4.5", "SMAS筋膜層", "深層承托及輪廓提拉"],
+      ["6.0", "身體淺層", "局部緊實與輪廓管理"],
+      ["9.0", "身體中層", "較深位置的緊實護理"],
+      ["13.0", "身體深層", "按部位及狀態制定處理方案"]
+    ];
+    const concerns = [
+      ["輪廓支撐下降", "面頰、下顎線或下半面開始顯得鬆弛。"],
+      ["眼周及細紋", "關注額頭、眼周、嘴周等精細位置。"],
+      ["雙下巴與頸部", "希望改善下巴至頸部的輪廓連貫感。"],
+      ["身體局部鬆弛", "關注上臂、腹部、腰側或大腿等位置。"]
+    ];
+    return `
+      <div class="tdna-modal__backdrop" data-treatment-close></div>
+      <section class="tdna-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tdna-modal-title" tabindex="-1">
+        <header class="tdna-modal__bar">
+          <a class="tdna-modal__brand" href="#top" data-treatment-close><span>EC BEAUTY</span><small>TIGHTENING DNA / TREATMENT DETAIL</small></a>
+          <button class="tdna-modal__close" type="button" data-treatment-close aria-label="關閉療程詳情"><span>Close</span><b aria-hidden="true">×</b></button>
+        </header>
+        <nav class="tdna-modal__nav" aria-label="EC緊膚咒詳情章節">
+          <a href="#tdna-curse-01"><b>01</b><span>療程</span></a><a href="#tdna-curse-02"><b>02</b><span>功效</span></a><a href="#tdna-curse-03"><b>03</b><span>7D深度</span></a><a href="#tdna-curse-04"><b>04</b><span>原理</span></a><a href="#tdna-curse-05"><b>05</b><span>應用</span></a><a href="#tdna-curse-06"><b>06</b><span>評估</span></a>
+        </nav>
+        <div class="tdna-modal__content tdna-curse-detail">
+          <section class="tdna-detail tdna-detail--hero" id="tdna-curse-01">
+            <div class="tdna-detail__number">01 <span>TREATMENT</span></div>
+            <div class="tdna-detail__hero-grid">
+              <div class="tdna-detail__hero-copy"><p>EC BEAUTY / 7D LAYERED LIFT</p><h2 id="tdna-modal-title">${treatment.name}</h2><h3 class="tdna-curse-kicker">抗衰界中的「黑馬」</h3><div class="tdna-content-field"><span>CHAMPION-LEVEL ANTI-AGING CARE</span><p>一個冠軍級抗衰護理，以懸吊式提拉緊緻概念，結合無創聚焦超聲及七種深度，為面部與身體建立分層護理方案。</p></div><div class="tdna-curse-pills"><span>懸吊式提拉緊緻</span><span>無創分層護理</span><span>FACE × BODY</span></div></div>
+              <figure class="tdna-visual tdna-visual--hero"><img src="${TIGHTENING_ASSET}/ec-tightening-hero.jpg" alt="EC緊膚咒療程與儀器主視覺"><figcaption>7D聚拉提技術方案</figcaption></figure>
+            </div>
+          </section>
+
+          <section class="tdna-detail" id="tdna-curse-02"><div class="tdna-detail__number">02 <span>SIX BENEFITS</span></div><header><p>WHAT IT SUPPORTS</p><h3>緊・提・拉・細・嫩・白</h3></header><div class="tdna-benefit-grid">${benefits.map((item,index)=>`<article class="tdna-benefit-placeholder"><i>${String(index+1).padStart(2,"0")}</i><span>${item[0]}</span><small>${item[1]}</small></article>`).join("")}</div><p class="tdna-disclaimer">「白」指肌膚經膚質、紋理及光澤改善後呈現的通透明亮視覺，不代表漂白、去斑或改變天然膚色。</p></section>
+
+          <section class="tdna-detail" id="tdna-curse-03"><div class="tdna-detail__number">03 <span>7 DEPTHS</span></div><header><p>LAYER BY LAYER</p><h3>7種深度・分層抗衰</h3></header><figure class="tdna-visual tdna-curse-wide"><img src="${TIGHTENING_ASSET}/seven-depth-cartridges.png" alt="七種不同深度聚焦超聲探頭概念視覺"><figcaption>由精細面部位置至身體不同深度</figcaption></figure><div class="tdna-depth-grid">${depths.map(item=>`<article><b>${item[0]}<small>mm</small></b><span>${item[1]}</span><p>${item[2]}</p></article>`).join("")}</div><div class="tdna-curse-split"><article><b>FACE / MICRO FOCUSED</b><h4>1.5・2.0・3.0・4.5mm</h4><p>由表層膚質、精細輪廓、真皮膠原到 SMAS 筋膜層，按面部位置選擇相應深度。</p></article><article><b>BODY / MACRO FOCUSED</b><h4>6.0・9.0・13.0mm</h4><p>對應身體不同深度及處理範圍，用於局部緊實與輪廓管理。</p></article></div></section>
+
+          <section class="tdna-detail" id="tdna-curse-04"><div class="tdna-detail__number">04 <span>TECHNOLOGY</span></div><header><p>HIFU + MMFU</p><h3>聚焦超聲如何分層作用？</h3></header><div class="tdna-tech-grid"><article><b>01</b><span>HIFU</span><small>HIGH-INTENSITY FOCUSED ULTRASOUND</small><p>將聚焦超聲能量非侵入式傳送至指定組織深度，避免把整個表面當成單一處理層。</p></article><article><b>02</b><span>Micro Focused</span><small>FACE / PRECISION</small><p>以較集中、精細的焦點照顧面部不同層次及狹窄位置。</p></article><article><b>03</b><span>Macro Focused</span><small>BODY / DEPTH</small><p>較深的宏聚焦探頭對應身體區域，支援局部緊實及輪廓方案。</p></article></div><figure class="tdna-visual tdna-curse-wide"><img src="${TIGHTENING_ASSET}/layered-ultrasound.png" alt="聚焦超聲於不同肌膚與支撐層次形成焦點的原理示意"><figcaption>Micro & Macro Focused Ultrasound 分層作用示意</figcaption></figure><div class="tdna-flow" aria-label="EC緊膚咒作用流程"><span>專業評估</span><i>→</i><span>選擇深度</span><i>→</i><span>聚焦能量</span><i>→</i><span>收縮反應</span><i>→</i><span>膠原更新</span><i>→</i><span>輪廓支撐</span></div><p class="tdna-disclaimer">原理圖為技術示意。探頭、能量及處理範圍需由專業人員按實際狀態制定。</p></section>
+
+          <section class="tdna-detail" id="tdna-curse-05"><div class="tdna-detail__number">05 <span>FACE × BODY</span></div><header><p>APPLICATION</p><h3>從精細輪廓，到身體承托</h3></header><figure class="tdna-visual tdna-curse-wide"><img src="${TIGHTENING_ASSET}/face-body-map.png" alt="EC緊膚咒面部與身體護理區域概念視覺"><figcaption>FACE × BODY 應用概念</figcaption></figure><div class="tdna-curse-split"><article><b>FACE</b><h4>面部・眼周・下顎・頸部</h4><p>可按額頭、眼周、面頰、法令位置、嘴周、下顎線、雙下巴與頸部等關注位置規劃。</p></article><article><b>BODY</b><h4>上臂・腹部・腰側・大腿</h4><p>身體方案可按局部鬆弛、輪廓與處理深度作個人化安排，並非所有位置使用相同探頭。</p></article></div><figure class="tdna-visual tdna-curse-device"><img src="${TIGHTENING_ASSET}/ec-tightening-device.jpg" alt="EC緊膚咒 MMFU 聚焦超聲儀器視覺"><figcaption>MMFU 聚焦超聲技術・精準作用不同深度</figcaption></figure></section>
+
+          <section class="tdna-detail" id="tdna-curse-06"><div class="tdna-detail__number">06 <span>ASSESSMENT</span></div><header><p>IS THIS FOR ME?</p><h3>適合改善的問題</h3></header><div class="tdna-concern-grid">${concerns.map(item=>`<article class="tdna-concern-placeholder"><i aria-hidden="true"></i><span>${item[0]}</span><small>${item[1]}</small></article>`).join("")}</div><div class="tdna-compare"><div><span>EC緊膚咒</span><p>以 7 種深度及 Micro／Macro Focused Ultrasound，按面部與身體層次制定方案。</p></div><div><span>一般單一深度護理</span><p>集中指定層次；實際差異仍需按儀器、技術、部位及操作方案評估。</p></div></div><div class="tdna-plan-shell"><div><span>PROFESSIONAL ASSESSMENT</span><h4>由專業評估開始，選擇適合你的深度與處理範圍</h4><p>療程並非以固定發數或同一探頭套用於所有客人。實際方案需考慮輪廓、膚質、部位及期望。</p></div><a class="tdna-curse-cta" href="#contact" data-treatment-close>預約專業評估</a></div><p class="tdna-disclaimer">本頁為療程及技術資訊，不構成醫療診斷或效果保證。實際感受、恢復及效果因人而異；如有健康或皮膚狀況，請先向合資格專業人士查詢。</p></section>
+        </div>
+      </section>`;
+  }
+
   function modalMarkup(treatment) {
     if (treatment.number === "01") return liftingDetailMarkup(treatment);
+    if (treatment.number === "02") return tighteningDetailMarkup(treatment);
     return `
       <div class="tdna-modal__backdrop" data-treatment-close></div>
       <section class="tdna-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tdna-modal-title" tabindex="-1">
