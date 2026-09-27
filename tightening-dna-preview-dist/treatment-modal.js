@@ -248,12 +248,22 @@
       const card = cards[index];
       if (card.dataset.treatmentEnhanced === "true") return;
       card.dataset.treatmentEnhanced = "true";
+      card.classList.add(`tdna-treatment-card--0${index + 1}`);
       card.setAttribute("aria-haspopup", "dialog");
       card.setAttribute("aria-label", `查看${treatment.name}療程詳情`);
       const title = card.querySelector(".card-title");
       const footer = card.querySelector(".card-footer span");
+      const image = card.querySelector(".card-img-box img");
       if (title) title.textContent = treatment.name;
       if (footer) footer.textContent = "查看療程詳情";
+      if (image && index === 0) {
+        image.src = `${LIFTING_ASSET}/lifting-hero.jpg`;
+        image.alt = "易思面部提拉護理主視覺";
+      }
+      if (image && index === 1) {
+        image.src = `${TIGHTENING_ASSET}/ec-tightening-hero.jpg`;
+        image.alt = "EC緊膚咒儀器主視覺";
+      }
       card.addEventListener("click", event => {
         event.preventDefault();
         event.stopImmediatePropagation();
