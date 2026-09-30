@@ -1,36 +1,25 @@
 {
-  "headers": [
+  "functions": {
+    "api/staff/materials.js": {
+      "includeFiles": "private-staff-assets/**"
+    }
+  },
+  "rewrites": [
     {
-      "source": "/tightening-dna-preview-ecb2026/",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow, noarchive, nosnippet"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "private, no-cache, no-store, must-revalidate"
-        }
-      ]
+      "source": "/",
+      "destination": "/tightening-dna-preview-ecb2026/index.html"
     },
     {
-      "source": "/tightening-dna-preview-ecb2026/:path*",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow, noarchive, nosnippet"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "private, no-cache, no-store, must-revalidate"
-        }
-      ]
-    }
-  ],
-  "rewrites": [
+      "source": "/tightening-dna-preview-ecb2026",
+      "destination": "/tightening-dna-preview-ecb2026/index.html"
+    },
     {
       "source": "/tightening-dna-preview-ecb2026/ai-skin-journey",
       "destination": "/tightening-dna-preview-ecb2026/index.html"
+    },
+    {
+      "source": "/campaign/:campaignId/verify/:token",
+      "destination": "/tightening-dna-preview-ecb2026/verify.html?campaignId=:campaignId&token=:token"
     },
     {
       "source": "/api/trpc/:path*",
