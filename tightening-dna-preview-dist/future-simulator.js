@@ -13,8 +13,10 @@
   let futureCanvas = null;
   let selectedYear = 5;
   let reveal = 52;
+  let analysisReveal = 50;
   let mountedScreen = null;
   let objectUrl = null;
+  let professionalAnalysisCanvas = null;
 
   function savedAnswers() {
     try { return JSON.parse(sessionStorage.getItem(answerKey) || "[]"); } catch (_) { return []; }
@@ -72,7 +74,7 @@
     sourceCanvas.height = height;
     sourceCanvas.getContext("2d", { alpha: false }).drawImage(bitmap, 0, 0, width, height);
     bitmap.close?.();
-    if (mountedScreen) buildFuture(selectedYear);
+    if (mountedScreen) { buildFuture(selectedYear); buildProfessionalAnalysis(); }
   }
 
   function ellipseGradient(ctx, x, y, rx, ry, color, alpha) {
@@ -143,6 +145,54 @@
     const futureLabel = document.querySelector("[data-sim-future-label]"); if(futureLabel) futureLabel.textContent = labels[selectedYear];
   }
 
+  function buildProfessionalAnalysis() {
+    if (!sourceCanvas) return;
+    const w = sourceCanvas.width, h = sourceCanvas.height;
+    professionalAnalysisCanvas = document.createElement("canvas");
+    professionalAnalysisCanvas.width = w; professionalAnalysisCanvas.height = h;
+    const ctx = professionalAnalysisCanvas.getContext("2d", { alpha: false });
+    ctx.drawImage(sourceCanvas, 0, 0);
+    ctx.save();
+    ctx.globalCompositeOperation = "screen";
+    const light = ctx.createLinearGradient(0, 0, w, h);
+    light.addColorStop(0, "rgba(139,116,181,.08)");
+    light.addColorStop(.55, "rgba(82,143,184,.34)");
+    light.addColorStop(1, "rgba(110,88,172,.42)");
+    ctx.fillStyle = light; ctx.fillRect(0, 0, w, h);
+    ctx.restore();
+    ctx.save();
+    ctx.globalCompositeOperation = "overlay";
+    ctx.strokeStyle = "rgba(218,236,255,.32)";
+    ctx.lineWidth = Math.max(1, w / 900);
+    for (let i = 1; i < 8; i++) {
+      ctx.beginPath();
+      ctx.ellipse(w * .5, h * (.18 + i * .075), w * (.17 + i * .02), h * (.025 + i * .004), 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    const rnd = mulberry32(20260927);
+    for (let i = 0; i < 110; i++) {
+      const x = w * (.24 + rnd() * .52), y = h * (.18 + rnd() * .58), r = Math.max(1.2, w * (.0015 + rnd() * .003));
+      ctx.fillStyle = i % 3 === 0 ? "rgba(238,194,227,.34)" : "rgba(173,224,242,.28)";
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.restore();
+    renderProfessionalReveal();
+  }
+
+  function renderProfessionalReveal() {
+    const display = document.querySelector("[data-prof-canvas]");
+    if (!display || !sourceCanvas || !professionalAnalysisCanvas) return;
+    const dw = display.width, dh = display.height, ctx = display.getContext("2d", { alpha: false });
+    const crop = coverCrop(sourceCanvas.width, sourceCanvas.height, dw, dh);
+    ctx.clearRect(0, 0, dw, dh);
+    ctx.drawImage(professionalAnalysisCanvas, crop.x, crop.y, crop.w, crop.h);
+    ctx.save(); ctx.beginPath(); ctx.rect(0, 0, dw * analysisReveal / 100, dh); ctx.clip();
+    ctx.drawImage(sourceCanvas, crop.x, crop.y, crop.w, crop.h); ctx.restore();
+    const x = dw * analysisReveal / 100;
+    ctx.fillStyle = "rgba(255,255,255,.94)"; ctx.fillRect(x - 1, 0, 2, dh);
+    document.querySelector(".ecpro-divider")?.style.setProperty("left", analysisReveal + "%");
+  }
+
   function updateReadout(p) {
     const box = document.querySelector("[data-sim-readout]"); if (!box) return;
     const rows = [["光澤",p.radiance],["均勻度",p.tone],["色素情境",p.pigment],["細紋",p.lines],["眼周疲態",p.eyes],["乾燥紋理",p.texture],["輪廓提示",p.firmness]];
@@ -158,6 +208,35 @@
       <div class="ecsim-readout"><strong>VISUAL PARAMETERS</strong><div data-sim-readout></div><small>強度會按本次問卷關注方向作情境調節，並非醫學風險分數。</small></div>
       <div class="ecsim-actions"><button type="button" data-sim-export>保存模擬結果</button><a href="/tightening-dna-preview-ecb2026/#contact">了解我的緊緻方案 →</a></div></aside></div>
       <p class="ecsim-privacy">照片僅用於本次瀏覽器內的視覺模擬；V1 不會將自拍傳送至外部 AI 圖像服務、Database 或永久儲存。這是視覺情境模擬，並非醫學診斷或實際未來效果預測。</p>
+      <section class="ecpro" data-professional-analysis>
+        <header class="ecpro-complete"><span>ANALYSIS COMPLETE</span><h2>你的肌膚初步分析已完成</h2><p>根據你的回答及自拍影像，我們已為你建立初步肌膚狀態分析。</p></header>
+        <aside class="ecpro-note"><b>影像分析提示</b><p>自拍環境中的光線、拍攝角度、距離、妝容及手機鏡頭差異，均可能影響影像判讀。網上影像分析屬初步參考，部分細紋、色素、毛孔及深層肌膚狀態未必能完整呈現。</p></aside>
+        <section class="ecpro-fallback" aria-labelledby="ecpro-fallback-title">
+          <div class="ecpro-fallback-copy"><span>PROFESSIONAL ANALYSIS NOTE</span><h2 id="ecpro-fallback-title">自拍分析 ≠ 專業肌膚診斷</h2><h3>有些老化訊號，未必能從一張自拍完整呈現。</h3><p>由於自拍時的光線、拍攝角度、表情、鏡頭距離及影像質素均可能影響分析結果，AI 影像只作肌膚變化趨勢參考，未必能 100% 反映你目前的真實肌膚狀況。</p><p>部分早期老化問題，例如細紋、皮膚彈性下降、輪廓支撐力減弱、眼周變化及不同皮膚層次的老化，單靠自拍未必能清楚辨識。</p></div>
+          <div class="ecpro-signals"><div class="ecpro-signals-head"><span>REFERENCE VISUAL</span><h3>常見老化訊號參考</h3></div><div class="ecpro-signals-layout"><figure><img src="/tightening-dna-preview-assets/skin-ageing-signals-reference-2026-09-28.png" alt="常見老化訊號參考人物，並非客人本人"></figure><ol><li><b>01</b>眼周細紋</li><li><b>02</b>眼袋／眼周鬆弛</li><li><b>03</b>額紋</li><li><b>04</b>法令紋</li><li><b>05</b>中面部下垂</li><li><b>06</b>嘴角下垂</li><li><b>07</b>下顎線模糊</li><li><b>08</b>雙下巴／輪廓鬆弛</li><li><b>09</b>頸紋</li><li><b>10</b>膚質／毛孔／彈性變化</li></ol></div><p>以上為常見老化訊號示意，實際肌膚狀況需按個人皮膚、輪廓及生活狀態評估。</p></div>
+          <div class="ecpro-fallback-cta"><h3>想知道真正影響你的，是哪一層？</h3><p>到店後，美容顧問會配合你的實際肌膚狀態、輪廓、鬆弛位置及護理習慣，進行更完整的緊緻 DNA 專業分析。</p><a href="/tightening-dna-preview-ecb2026/#contact">預約到店專業肌膚分析 →</a></div>
+        </section>
+        <div class="ecpro-intro"><span>PROFESSIONAL SKIN ANALYSIS</span><h2>鏡頭看見的，<em>只是肌膚的一部分</em></h2><p>到店進一步了解肉眼未必看得見的肌膚狀態</p></div>
+        <div class="ecpro-visual">
+          <canvas data-prof-canvas width="1080" height="760" aria-label="自然光與專業肌膚分析視覺比較"></canvas>
+          <div class="ecpro-label ecpro-label--normal"><b>NORMAL LIGHT</b><span>自然光／正常肌膚狀態</span></div>
+          <div class="ecpro-label ecpro-label--analysis"><b>PROFESSIONAL ANALYSIS</b><span>專業肌膚分析視覺</span></div>
+          <i class="ecpro-divider"><b>↔</b></i>
+          <input type="range" min="0" max="100" value="50" aria-label="自然光與專業分析比較 Slider" data-prof-range>
+        </div>
+        <p class="ecpro-visual-note">拖動比較自然光影像與專業分析情境。分析光層為版面示意，實際結果以到店檢測為準。</p>
+        <div class="ecpro-dimensions">
+          <div class="ecpro-radar" aria-label="五項專業肌膚分析維度，沒有顯示虛構分數">
+            <svg viewBox="0 0 520 500" role="img" aria-hidden="true"><g class="ecpro-radar-frame"><polygon points="260,48 454,190 380,418 140,418 66,190"/><line x1="260" y1="250" x2="260" y2="48"/><line x1="260" y1="250" x2="454" y2="190"/><line x1="260" y1="250" x2="380" y2="418"/><line x1="260" y1="250" x2="140" y2="418"/><line x1="260" y1="250" x2="66" y2="190"/></g><polygon class="ecpro-radar-fill" points="260,105 395,208 344,365 176,365 125,208"/></svg>
+            <span class="ecpro-axis ecpro-axis--1">細紋表現</span><span class="ecpro-axis ecpro-axis--2">毛孔狀態</span><span class="ecpro-axis ecpro-axis--3">色素分布</span><span class="ecpro-axis ecpro-axis--4">肌膚紋理</span><span class="ecpro-axis ecpro-axis--5">膚色均勻度</span>
+            <div><b>5 DIMENSIONS</b><span>專業肌膚分析</span></div>
+          </div>
+          <div class="ecpro-dimension-copy"><span>IN-STORE ANALYSIS</span><h3>五個維度，進一步理解肌膚狀態</h3><p>這些肌膚資訊，需要在較穩定的光源及專業檢測環境下進一步分析。</p><ul><li>細紋表現</li><li>毛孔狀態</li><li>色素分布</li><li>肌膚紋理</li><li>膚色均勻度</li></ul></div>
+        </div>
+        <div class="ecpro-journey"><article><span>ONLINE</span><h3>網上肌膚測試</h3><p>自拍影像<br>＋ 生活及肌膚問卷<br>＋ 初步肌膚方向</p></article><i><b>FIRST STEP</b><span>→</span></i><article><span>IN-STORE</span><h3>到店專業肌膚分析</h3><p>穩定檢測環境<br>＋ 多維度肌膚觀察<br>＋ 美容師專業評估<br>＋ 個人化護理方向</p></article></div>
+        <div class="ecpro-cta"><span>PROFESSIONAL SKIN ANALYSIS</span><h2>完成最後一步：<em>專業肌膚分析</em></h2><p>網上測試讓你先了解肌膚方向。到店後，我們會在較穩定的光源及檢測環境下，進一步觀察肌膚紋理、細紋、毛孔、色素及整體狀態，再結合美容師專業評估，為你制定更合適的護理方向。</p><a href="/tightening-dna-preview-ecb2026/#contact">預約到店專業肌膚分析 →</a></div>
+        <section class="ec-voucher" data-experience-voucher><span>TEST / PREVIEW VOUCHER</span><h2>您的到店體驗憑證</h2><p>輸入會員編號或電話，領取 TEST 體驗憑證。現階段只作已登記識別碼，並不代表已完成正式會員身份驗證。</p><form><input name="identifier" aria-label="會員編號或電話" placeholder="會員編號或電話" autocomplete="off" required><button>領取憑證</button></form><p data-voucher-message></p><article data-voucher-card hidden></article></section>
+      </section>
     </div>`;
   }
 
@@ -170,6 +249,32 @@
     out.toBlob(blob=>{if(!blob)return;const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=`ec-beauty-skin-timeline-${selectedYear}y.png`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)},"image/png");
   }
 
+  function professionalMarkup() {
+    const shell = document.createElement("div");
+    shell.innerHTML = markup();
+    return shell.querySelector("[data-professional-analysis]")?.outerHTML || "";
+  }
+
+  function attachProfessional(section) {
+    section.querySelector("[data-prof-range]")?.addEventListener("input", e => {
+      analysisReveal = Number(e.target.value);
+      renderProfessionalReveal();
+    });
+    new IntersectionObserver(entries => entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add("is-visible");
+    }), { threshold: .18 }).observe(section);
+    buildProfessionalAnalysis();
+    const form=section.querySelector('[data-experience-voucher] form');
+    form?.addEventListener('submit',async e=>{e.preventDefault();const root=e.currentTarget.closest('[data-experience-voucher]'),msg=root.querySelector('[data-voucher-message]'),card=root.querySelector('[data-voucher-card]'),button=e.currentTarget.querySelector('button'),identifier=new FormData(e.currentTarget).get('identifier');button.disabled=true;msg.textContent='正在建立 TEST 憑證…';try{const response=await fetch('/api/campaign-test/claim',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({campaignId:'tightening_dna_facial_2026',identifier})}),data=await response.json();if(!response.ok)throw new Error(data.error||'CLAIM_FAILED');card.hidden=false;card.innerHTML=`<img src="${data.voucher.qrImageDataUrl}" alt="個人 TEST 憑證 QR Code"><div><small>${data.duplicate?'此會員禮遇已領取':'領取成功'}</small><h3>${data.reward.name}</h3><b>${data.voucher.displayCode}</b><p>狀態：${data.voucher.status}<br>到期：${new Date(data.voucher.expiresAt).toLocaleDateString('zh-HK')}</p><em>到店時出示此 QR Code 或核銷碼即可。</em></div>`;msg.textContent=''}catch(err){msg.textContent=err.message==='INVALID_IDENTIFIER'?'請輸入有效會員編號或電話':'暫時無法建立 TEST 憑證，請稍後再試。'}finally{button.disabled=false}});
+  }
+
+  function mountResult(screen) {
+    if (screen.querySelector("[data-professional-analysis]")) return;
+    screen.insertAdjacentHTML("beforeend", professionalMarkup());
+    const section = screen.querySelector("[data-professional-analysis]");
+    if (section) attachProfessional(section);
+  }
+
   function mount(screen) {
     if (screen.querySelector("[data-future-simulator]")) return;
     mountedScreen=screen; screen.insertAdjacentHTML("afterbegin",markup());
@@ -179,11 +284,11 @@
     if (!sourceCanvas) {
       const img=document.querySelector('.skin-journey__scanner-instrument img[src^="blob:"]')||document.querySelector('.skin-journey__upload img[src^="blob:"]');
       if(img?.src) fetch(img.src).then(r=>r.blob()).then(b=>prepareImage(new File([b],"portrait.jpg",{type:b.type||"image/jpeg"}))).catch(()=>{});
-    } else buildFuture(selectedYear);
+    } else { buildFuture(selectedYear); buildProfessionalAnalysis(); }
   }
 
   document.addEventListener("click", e => { const a=e.target.closest(".skin-journey__answer"); if(a) recordAnswer(a.textContent); }, true);
   document.addEventListener("change", e => { if(e.target.matches('.skin-journey__upload input[type="file"]') && e.target.files?.[0]) prepareImage(e.target.files[0]); }, true);
-  const observer=new MutationObserver(()=>{if(!location.pathname.endsWith("/ai-skin-journey"))return;const screen=document.querySelector(".skin-journey__time");if(screen)mount(screen)});
+  const observer=new MutationObserver(()=>{if(!location.pathname.endsWith("/ai-skin-journey"))return;const timeScreen=document.querySelector(".skin-journey__time");if(timeScreen)mount(timeScreen);const resultScreen=document.querySelector(".skin-journey__result");if(resultScreen)mountResult(resultScreen)});
   observer.observe(document.documentElement,{childList:true,subtree:true});
 })();

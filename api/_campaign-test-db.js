@@ -4,41 +4,51 @@ import pg from "pg";
 const { Pool } = pg;
 let pool;
 
-export function assertTestRuntime() {
-  const vercelEnv = process.env.VERCEL_ENV;
-  if (process.env.CAMPAIGN_DB_ENV !== "test") throw new Error("TEST_ENV_NOT_CONFIGURED");
-  if (vercelEnv && vercelEnv !== "preview" && vercelEnv !== "development") {
-    throw new Error("PRODUCTION_ACCESS_FORBIDDEN");
-  }
-  const candidates = [process.env.TEST_DATABASE_URL, process.env.POSTGRES_URL].filter(Boolean);
-  if (!candidates.length) throw new Error("TEST_DATABASE_URL_MISSING");
-  let url;
+function normalizeDatabaseUrl(raw, label) {
+  if (!raw) throw new Error(`${label}_MISSING`);
+  const normalized = raw.trim().replace(/^["']|["']$/g, "").replace(/&amp;/g, "&").replace(/\\([_@])/g, "$1");
   let parsed;
-  for (const rawUrl of candidates) {
-    const normalized = rawUrl
-      .trim()
-      .replace(/^TEST_DATABASE_URL\s*=\s*/i, "")
-      .replace(/^["']|["']$/g, "")
-      .replace(/&amp;/g, "&")
-      .replace(/\\([_@])/g, "$1");
-    try {
-      const candidate = new URL(normalized);
-      if ((candidate.protocol === "postgresql:" || candidate.protocol === "postgres:") && candidate.hostname.endsWith(".neon.tech")) {
-        url = normalized;
-        parsed = candidate;
-        break;
-      }
-    } catch {
-      // Try the Vercel-managed Preview-only Neon URL next.
-    }
+  try { parsed = new URL(normalized); } catch { throw new Error(`${label}_FORMAT_INVALID`); }
+  if (!['postgresql:', 'postgres:'].includes(parsed.protocol) || !parsed.hostname.endsWith('.neon.tech')) {
+    throw new Error(`${label}_HOST_REJECTED`);
   }
-  if (!url || !parsed) throw new Error("TEST_DATABASE_URL_FORMAT_INVALID");
-  if (!parsed.hostname.endsWith(".neon.tech")) throw new Error("TEST_DATABASE_HOST_REJECTED");
-  return url;
+  return normalized;
+}
+
+export function getCampaignRuntime() {
+  const vercelEnv = process.env.VERCEL_ENV || "development";
+  const databaseEnv = process.env.CAMPAIGN_DB_ENV;
+  if (vercelEnv === "production") {
+    if (databaseEnv !== "production") throw new Error("CAMPAIGN_ENVIRONMENT_MISMATCH");
+    return {
+      mode: "production",
+      databaseUrl: normalizeDatabaseUrl(process.env.PRODUCTION_DATABASE_URL, "PRODUCTION_DATABASE_URL"),
+      sessionSecretEnv: "STAFF_SESSION_SECRET",
+      staffCookie: "ec_staff",
+      staffCredentialPrefix: "PRODUCTION_STAFF_",
+    };
+  }
+  if (vercelEnv === "preview" || vercelEnv === "development") {
+    if (databaseEnv !== "test") throw new Error("CAMPAIGN_ENVIRONMENT_MISMATCH");
+    return {
+      mode: "test",
+      databaseUrl: normalizeDatabaseUrl(process.env.TEST_DATABASE_URL, "TEST_DATABASE_URL"),
+      sessionSecretEnv: "STAFF_SESSION_SECRET_TEST",
+      staffCookie: "ec_staff_preview",
+      staffCredentialPrefix: "PREVIEW_STAFF_",
+    };
+  }
+  throw new Error("CAMPAIGN_RUNTIME_UNSUPPORTED");
+}
+
+export function assertTestRuntime() {
+  const runtime = getCampaignRuntime();
+  if (runtime.mode !== "test") throw new Error("TEST_ENV_NOT_CONFIGURED");
+  return runtime.databaseUrl;
 }
 
 export function getPool() {
-  if (!pool) pool = new Pool({ connectionString: assertTestRuntime(), max: 4 });
+  if (!pool) pool = new Pool({ connectionString: getCampaignRuntime().databaseUrl, max: 4 });
   return pool;
 }
 
