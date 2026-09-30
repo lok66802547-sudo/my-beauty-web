@@ -6,6 +6,14 @@
   },
   "rewrites": [
     {
+      "source": "/",
+      "destination": "/tightening-dna-preview-ecb2026/index.html"
+    },
+    {
+      "source": "/tightening-dna-preview-ecb2026",
+      "destination": "/tightening-dna-preview-ecb2026/index.html"
+    },
+    {
       "source": "/tightening-dna-preview-ecb2026/ai-skin-journey",
       "destination": "/tightening-dna-preview-ecb2026/index.html"
     },

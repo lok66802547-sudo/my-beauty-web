@@ -8,3 +8,15 @@
 @media(max-width:800px){.ecpro{margin-top:55px;padding:48px 16px;border-radius:26px}.ecpro-note{margin-bottom:72px}.ecpro-fallback{margin:-28px auto 80px}.ecpro-fallback-copy{text-align:left}.ecpro-fallback-copy h2{font-size:42px}.ecpro-fallback-copy h3{font-size:16px}.ecpro-fallback-copy p{font-size:12px}.ecpro-signals{padding:18px;border-radius:22px}.ecpro-signals-layout{grid-template-columns:1fr}.ecpro-signals figure{aspect-ratio:3/2}.ecpro-signals ol{grid-template-columns:1fr 1fr}.ecpro-fallback-cta{padding:26px 18px}.ecpro-fallback-cta a{width:100%}.ecpro-visual{aspect-ratio:4/5;border-radius:22px}.ecpro-label{top:12px;padding:8px 9px}.ecpro-label span{display:none}.ecpro-label--normal{left:12px}.ecpro-label--analysis{right:12px}.ecpro-dimensions{grid-template-columns:1fr;margin:80px auto;gap:38px}.ecpro-radar{width:min(86vw,440px)}.ecpro-journey{grid-template-columns:1fr;margin-bottom:75px}.ecpro-journey>i{min-height:70px}.ecpro-journey>i span{transform:rotate(90deg)}.ecpro-cta{padding:42px 20px}.ecpro-cta h2 em{display:inline}.ecpro-cta a{width:100%}}
 @media(max-width:430px){.ecpro-complete h2,.ecpro-intro h2,.ecpro-cta h2{font-size:40px}.ecpro-note{padding:18px}.ecpro-fallback-copy h2{font-size:38px}.ecpro-signals ol{grid-template-columns:1fr}.ecpro-signals li{min-height:46px}.ecpro-signals figure{aspect-ratio:3/2}.ecpro-visual{min-height:470px}.ecpro-dimension-copy ul{grid-template-columns:1fr}.ecpro-axis{font-size:9px}.ecpro-radar>div{inset:36% 27%}.ecpro-journey article{padding:26px}.ecpro-cta p{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.ecpro-radar-frame,.ecpro-radar-fill{transition:none}.ecpro-radar-frame{stroke-dashoffset:0}.ecpro-radar-fill{opacity:1;transform:none}}
+
+/* Large-title legibility fix — 2026-09-30 */
+.skin-journey__time-heading h2,
+.ecsim-head h2,
+.ecpro-complete h2,
+.ecpro-intro h2,
+.ecpro-fallback-copy h2,
+.ecpro-cta h2 {
+  font-size: clamp(26px, 3vw, 36px) !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+}

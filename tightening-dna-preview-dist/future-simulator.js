@@ -203,11 +203,11 @@
     return `<div class="ecsim" data-future-simulator>
       <header class="ecsim-head"><span>FUTURE SKIN VISUAL PROJECTION · V1</span><h2>你的肌膚<em>時間軸</em></h2><p>看看在不同生活及護理情境下，肌膚可能出現的視覺變化。</p></header>
       <div class="ecsim-layout"><div class="ecsim-stage"><canvas data-sim-canvas width="900" height="1060" aria-label="自拍肌膚時間軸視覺投影"></canvas><span class="ecsim-tag ecsim-tag--left">現在</span><span class="ecsim-tag ecsim-tag--right" data-sim-future-label>5 年後</span><i class="ecsim-divider"><b>↔</b></i></div>
-      <aside class="ecsim-panel"><div class="ecsim-years" role="tablist" aria-label="選擇模擬年份">${[0,2,5,10].map(y=>`<button type="button" role="tab" data-sim-year="${y}" class="${y===5?'is-active':''}"><b>${y===0?'NOW':y}</b><span>${y===0?'現在':y+' YEARS'}</span></button>`).join("")}</div>
+      <aside class="ecsim-panel"><div class="ecsim-years" role="tablist" aria-label="選擇投影年份">${[0,2,5,10].map(y=>`<button type="button" role="tab" data-sim-year="${y}" class="${y===5?'is-active':''}"><b>${y===0?'NOW':y}</b><span>${y===0?'現在':y+' YEARS'}</span></button>`).join("")}</div>
       <label class="ecsim-range"><span><b>現在</b><b data-sim-range-label>5 年後</b></span><input type="range" min="0" max="100" value="52" aria-label="現在與未來視覺比較 Slider" data-sim-range></label>
       <div class="ecsim-readout"><strong>VISUAL PARAMETERS</strong><div data-sim-readout></div><small>強度會按本次問卷關注方向作情境調節，並非醫學風險分數。</small></div>
-      <div class="ecsim-actions"><button type="button" data-sim-export>保存模擬結果</button><a href="/tightening-dna-preview-ecb2026/#contact">了解我的緊緻方案 →</a></div></aside></div>
-      <p class="ecsim-privacy">照片僅用於本次瀏覽器內的視覺模擬；V1 不會將自拍傳送至外部 AI 圖像服務、Database 或永久儲存。這是視覺情境投影，並非醫學診斷或實際未來效果預測。</p>
+      <div class="ecsim-actions"><button type="button" data-sim-export>保存投影結果</button><a href="/tightening-dna-preview-ecb2026/#contact">了解我的緊緻方案 →</a></div></aside></div>
+      <p class="ecsim-privacy">照片僅用於本次瀏覽器內的視覺投影；V1 不會將自拍傳送至外部 AI 圖像服務、Database 或永久儲存。這是視覺情境投影，並非醫學診斷或實際未來效果預測。</p>
       <section class="ecpro" data-professional-analysis>
         <header class="ecpro-complete"><span>ANALYSIS COMPLETE</span><h2>你的肌膚初步分析已完成</h2><p>根據你的回答及自拍影像，我們已為你建立初步肌膚狀態分析。</p></header>
         <aside class="ecpro-note"><b>影像分析提示</b><p>自拍環境中的光線、拍攝角度、距離、妝容及手機鏡頭差異，均可能影響影像判讀。網上影像分析屬初步參考，部分細紋、色素、毛孔及深層肌膚狀態未必能完整呈現。</p></aside>

@@ -32,7 +32,7 @@
 
     var image = document.createElement("img");
     image.className = "ec-global-brand__logo";
-    image.src = "/logo.png";
+    image.src = "/logo.png?v=20260930";
     image.alt = "";
     image.width = 161;
     image.height = 268;
