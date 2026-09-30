@@ -6,6 +6,13 @@
     <meta name="robots" content="index, follow" />
     <meta name="googlebot" content="index, follow" />
     <title>EC Beauty 緊緻 DNA｜AI Skin Journey</title>
+    <meta name="description" content="EC Beauty 緊緻 DNA 療程，結合基因表現分析與 AI 個人化護理建議，由淺入深三段式逆齡方案，開啟您的專屬煥肌旅程。" />
+    <meta property="og:title" content="EC Beauty 緊緻 DNA｜AI Skin Journey" />
+    <meta property="og:description" content="EC Beauty 緊緻 DNA 療程，結合基因表現分析與 AI 個人化護理建議，由淺入深三段式逆齡方案，開啟您的專屬煥肌旅程。" />
+    <meta property="og:url" content="https://ec-beauty-new.vercel.app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="EC Beauty" />
+    <link rel="canonical" href="https://ec-beauty-new.vercel.app/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;500;600&family=Noto+Sans+HK:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -29,6 +36,15 @@
       /* ===== 全站字體統一覆蓋（2026-09-30）===== */
       :root{--font-primary:'Noto Sans HK',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
       *,*::before,*::after{font-family:var(--font-primary)!important}
+      /* ===== Logo 可視化修復：白色/淺色元素在白底上清晰可見（2026-09-30）===== */
+      .skin-journey__wordmark img,
+      .skin-journey__wordmark svg,
+      .site-logo img,
+      .site-logo svg,
+      [class*="logo"] img,
+      [class*="logo"] svg,
+      .nav-logo img,
+      .nav-logo svg { filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.35)); }
       .preview-staff-entry{position:fixed;right:22px;bottom:84px;z-index:2147482000;display:flex;align-items:center;justify-content:center;gap:8px;min-width:138px;min-height:46px;padding:0 16px;border:1px solid rgba(117,100,125,.22);border-radius:999px;color:#6f6374;background:rgba(255,255,255,.92);box-shadow:0 10px 28px rgba(59,44,68,.14);backdrop-filter:blur(10px);font:600 11px/1 Manrope,"Noto Sans TC",sans-serif;letter-spacing:.05em;text-decoration:none;transition:opacity .18s ease,transform .18s ease}.preview-staff-entry:hover,.preview-staff-entry:focus{opacity:1;transform:translateY(-1px)}
       @media(max-width:700px){.preview-staff-entry{right:14px;bottom:calc(73px + env(safe-area-inset-bottom));min-width:145px;min-height:44px;padding:0 15px}}
     </style>
